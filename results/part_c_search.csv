@@ -1,0 +1,2 @@
+map,delivery_task,bfs_route_length,astar_route_length,bfs_expanded_nodes,astar_expanded_nodes
+my_campus,S->W,16,16,93,36

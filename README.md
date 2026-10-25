@@ -1,46 +1,44 @@
-# Eagle Delivery: Project 1 starter
+# Eagle Delivery
 
-This is our project 1 that focuses on search and reinforcement learning. Edit this readme file with your own project introduction and run commands for your GitHub commits.
+Eagle Delivery is a grid-based campus delivery simulator. It compares BFS and
+A* route search and uses tabular Q-learning to learn delivery policies.
 
-## Requirements
+## Run commands
 
-Use Python 3.9+.
-
-## What already works
-
-```bash
-python3 run_project.py show
-python3 run_project.py search --algorithm bfs --start S --goal W
-python3 run_project.py search --algorithm bfs --map maps/emu_detour.txt --start S --goal W
-python3 run_project.py random --start S --goal W --seed 0
-python3 examples/interaction_demo.py
-python3 -m unittest tests.test_environment -v
-```
-
-On `emu_campus.txt`, BFS from S to W should return path length **18** and **67**
-expanded nodes, The path visualization uses `o`.
-
-## Your implementation tasks
-
-Edit only these four functions in `agents.py` for the required algorithms:
-
-1. `manhattan(state, goal)`
-2. `astar(campus, start, goal)`
-3. `epsilon_greedy(q_values, state, actions, epsilon, rng)`
-4. `q_learning_update(q_values, state, action, reward, next_state, actions, alpha, gamma, terminal)`
-
-
-After TODOs 1-2:
+Run these commands from the project root.
 
 ```bash
-python3 -m unittest tests.test_student.SearchTests -v
-python3 run_project.py search --algorithm astar --start S --goal W
+# Search examples
+python run_project.py search --map maps/emu_campus.txt --algorithm bfs --start S --goal W
+python run_project.py search --map maps/emu_campus.txt --algorithm astar --start S --goal W
+python run_project.py search --map maps/emu_detour.txt --algorithm astar --start L --goal D
+python run_project.py search --map maps/my_campus.txt --algorithm bfs --start S --goal W
+python run_project.py search --map maps/my_campus.txt --algorithm astar --start S --goal W
+
+# Part B baseline Q-learning runs
+python run_project.py train --start S --goal W --output results/baseline_SW
+python run_project.py train --start L --goal D --output results/baseline_LD
+python run_project.py train --start H --goal P --output results/baseline_HP
+
+# Part C epsilon experiment
+python run_project.py train --map maps/my_campus.txt --start S --goal W --epsilon 0.05 --output results/custom_e005
+python run_project.py train --map maps/my_campus.txt --start S --goal W --epsilon 0.2 --output results/custom_e020
+python run_project.py train --map maps/my_campus.txt --start S --goal W --epsilon 0.5 --output results/custom_e050
+
+# Summarize a run and generate its learning-curve CSV
+python summarize_results.py results/baseline_SW
+python summarize_results.py results/baseline_LD
+python summarize_results.py results/baseline_HP
+python summarize_results.py results/custom_e005
+python summarize_results.py results/custom_e020
+python summarize_results.py results/custom_e050
 ```
 
-After TODOs 3-4:
+## Experiment settings
 
-```bash
-python3 -m unittest tests.test_student.LearningTests -v
-python3 -m unittest discover -v
-python3 run_project.py train --start S --goal W --output results/baseline_SW
-```
+- **Part B:** Baseline campus map; tasks S -> W, L -> D, and H -> P, 2,000 training
+  episodes, seeds 0, 1, and 2, 100 evaluation episodes per seed, 200-action
+  limit, a = 0.3; y = 0.95, explanation rate = 0.2, slip = 0.0
+- **Part C:** Custom map, S -> W; explanation rate = 0.05, 0.2, and 0.5, seeds 0, 1, and 2,
+  2,000 training episodes, 100 evaluation episodes per seed, 200-action limit,
+  a = 0.3, y = 0.95, slip = 0.0

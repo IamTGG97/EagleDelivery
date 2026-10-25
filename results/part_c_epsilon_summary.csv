@@ -1,0 +1,4 @@
+epsilon,training_episodes_per_seed,seeds,evaluation_episodes_per_seed,first_100_episode_training_success_rate,episodes_101_200_training_success_rate,evaluation_success_rate_mean,evaluation_success_rate_sample_sd,evaluation_mean_return,evaluation_mean_steps_to_delivery
+0.05,2000,"0 1 2",100,0.9067,1.0,1.0,0.0,24,16
+0.2,2000,"0 1 2",100,0.8633,1.0,1.0,0.0,24,16
+0.5,2000,"0 1 2",100,0.89,1.0,1.0,0.0,24,16
